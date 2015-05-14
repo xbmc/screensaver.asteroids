@@ -8,7 +8,7 @@
 #pragma once
 
 #include "types.h"
-#include <sys/time.h>
+#include <chrono>
 
 /***************************** D E F I N E S *******************************/
 /****************************** M A C R O S ********************************/
@@ -31,9 +31,8 @@ protected:
 
         static double WallTime ()
         {
-          timeval tmpTime;
-          gettimeofday(&tmpTime,NULL);
-          return tmpTime.tv_sec + tmpTime.tv_usec/1.0e6;
+          auto now = std::chrono::system_clock::now().time_since_epoch();
+          return std::chrono::duration_cast<std::chrono::microseconds>(now).count() / 1.0e6;
         }
 };
 

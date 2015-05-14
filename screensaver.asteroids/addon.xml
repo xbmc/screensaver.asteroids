@@ -10,10 +10,11 @@
   <extension
     point="xbmc.ui.screensaver"
     library_linux="screensaver.asteroids.so"
+    library_windx="screensaver.asteroids.dll"
     library_osx="screensaver.asteroids.dylib"/>
   <extension point="xbmc.addon.metadata">
     <summary>Asteroids screensaver</summary>
     <description>Asteroids screensaver</description>
-    <platform>linux osx</platform>
+    <platform>linux osx windx</platform>
   </extension>
 </addon>

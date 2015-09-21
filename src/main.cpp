@@ -23,7 +23,7 @@
 //
 ////////////////////////////////////////////////////////////////////////////
 //
-#include "kodi/xbmc_scr_dll.h"
+#include "xbmc_scr_dll.h"
 #ifndef WIN32
 #include <GL/gl.h>
 #else

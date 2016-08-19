@@ -19,21 +19,20 @@
 class CTimer
 {
 public:
-
-				CTimer();
-	void		Init(void);
-	void		Update(void);
-	f32			GetDeltaTime(void);
+  CTimer();
+  void Init(void);
+  void Update(void);
+  f32 GetDeltaTime(void);
 
 protected:
-	double m_OldCount;
-	f32				m_DeltaTime;
+  double m_OldCount;
+  f32 m_DeltaTime;
 
-        static double WallTime ()
-        {
-          auto now = std::chrono::system_clock::now().time_since_epoch();
-          return std::chrono::duration_cast<std::chrono::microseconds>(now).count() / 1.0e6;
-        }
+  static double WallTime ()
+  {
+    auto now = std::chrono::system_clock::now().time_since_epoch();
+    return std::chrono::duration_cast<std::chrono::microseconds>(now).count() / 1.0e6;
+  }
 };
 
 /***************************** G L O B A L S *******************************/
@@ -43,19 +42,19 @@ protected:
 //
 inline CTimer::CTimer()
 {
-	m_DeltaTime		= 0.0f;
+  m_DeltaTime = 0.0f;
 }
 
 ////////////////////////////////////////////////////////////////////////////
 //
-inline void	CTimer::Init(void)
+inline void CTimer::Init(void)
 {
   m_OldCount = WallTime();
 }
 
 ////////////////////////////////////////////////////////////////////////////
 //
-inline void	CTimer::Update(void)
+inline void CTimer::Update(void)
 {
   m_DeltaTime = WallTime()-m_OldCount;
   m_OldCount = WallTime();
@@ -63,7 +62,7 @@ inline void	CTimer::Update(void)
 
 ////////////////////////////////////////////////////////////////////////////
 //
-inline f32		CTimer::GetDeltaTime(void)
+inline f32 CTimer::GetDeltaTime(void)
 {
-	return m_DeltaTime;
+  return m_DeltaTime;
 }

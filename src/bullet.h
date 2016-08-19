@@ -12,8 +12,8 @@
 
 enum EBulletState
 {
-	BS_NONE,
-	BS_ACTIVE
+  BS_NONE,
+  BS_ACTIVE
 };
 
 /****************************** M A C R O S ********************************/
@@ -24,18 +24,18 @@ enum EBulletState
 class CBullet
 {
 public:
-					CBullet();
-					~CBullet();
+  CBullet();
+  ~CBullet();
 
-	void			Draw(CRenderD3D* render);
-	void			Update(f32 dt);
+  void Draw(CRenderD3D* render);
+  void Update(f32 dt);
 
-	void			Fire(const CVector2& pos, const CVector2& vel);
+  void Fire(const CVector2& pos, const CVector2& vel);
 
-	EBulletState	m_State;
-	CVector2		m_Pos;
-	CVector2		m_Vel;
-	f32				m_Size;
+  EBulletState m_State;
+  CVector2 m_Pos;
+  CVector2 m_Vel;
+  f32 m_Size;
 };
 
 /***************************** I N L I N E S *******************************/

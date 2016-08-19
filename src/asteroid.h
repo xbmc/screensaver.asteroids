@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////
-// 
+//
 //
 // Author:
 //   Joakim Eriksson
@@ -10,57 +10,58 @@
 
 /***************************** D E F I N E S *******************************/
 
-#define ASTEROIDNUMLINES		20
-#define ASTEROIDEXPTIME			2.0f
+#define ASTEROIDNUMLINES    20
+#define ASTEROIDEXPTIME     2.0f
 
 enum EAsteroidState
 {
-	AS_NONE,
-	AS_ACTIVE,
-	AS_EXPLODING
+  AS_NONE,
+  AS_ACTIVE,
+  AS_EXPLODING
 };
 
 enum EAsteroidType
 {
-	AT_BIG,
-	AT_SMALL
+  AT_BIG,
+  AT_SMALL
 };
 
 /****************************** M A C R O S ********************************/
 /***************************** C L A S S E S *******************************/
 
 ////////////////////////////////////////////////////////////////////////////
-// 
+//
 class CAsteroid
 {
 public:
-					CAsteroid();
-					~CAsteroid();
-	void			Init(EAsteroidType type);
-	void			Update(f32 dt);
-	void			Draw(CRenderD3D* render);
+  CAsteroid();
+  ~CAsteroid();
 
-	void			Explode(const CVector2& vel);
-	bool			Intersects(const CVector2& pos);
+  void Init(EAsteroidType type);
+  void Update(f32 dt);
+  void Draw(CRenderD3D* render);
 
-	void			SetVel(const CVector2& vel);
+  void Explode(const CVector2& vel);
+  bool Intersects(const CVector2& pos);
 
-	EAsteroidType	m_Type;
-	EAsteroidState	m_State;
-	CVector2		m_Pos;
-	f32				m_Rot, m_RotVel;
-	f32				m_Size;
+  void SetVel(const CVector2& vel);
 
-	f32				m_Time;
+  EAsteroidType   m_Type;
+  EAsteroidState  m_State;
+  CVector2        m_Pos;
+  f32             m_Rot, m_RotVel;
+  f32             m_Size;
 
-	CVector2		m_Lines[ASTEROIDNUMLINES][2];
+  f32             m_Time;
 
-	// Used when exploding
-	CVector2		m_LineVel[ASTEROIDNUMLINES];
-	f32				m_LineRot[ASTEROIDNUMLINES];
+  CVector2        m_Lines[ASTEROIDNUMLINES][2];
+
+  // Used when exploding
+  CVector2        m_LineVel[ASTEROIDNUMLINES];
+  f32             m_LineRot[ASTEROIDNUMLINES];
 
 protected:
-	CVector2		m_Vel;
+  CVector2        m_Vel;
 
 };
 

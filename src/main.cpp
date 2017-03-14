@@ -283,7 +283,7 @@ bool CRenderD3D::Draw()
 #else
   m_pContext->Unmap(m_pVBuffer, 0);
   m_pContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_LINELIST);
-  size_t strides = sizeof(TRenderVertex), offsets = 0;
+  UINT strides = sizeof(TRenderVertex), offsets = 0;
   m_pContext->IASetVertexBuffers(0, 1, &m_pVBuffer, &strides, &offsets);
   m_pContext->PSSetShader(m_pPShader, NULL, 0);
   m_pContext->Draw(m_NumLines * 2, 0);

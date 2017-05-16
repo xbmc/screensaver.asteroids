@@ -17,6 +17,14 @@ set(ASTEROIDS_SOURCES src/asteroid.cpp
                       src/main.cpp
                       src/ship.cpp)
 
+set(ASTEROIDS_HEADERS src/asteroid.h
+                      src/Asteroids.h
+                      src/bullet.h
+                      src/main.h
+                      src/ship.h
+                      src/timer.h
+                      src/types.h)
+
 set(DEPLIBS)
 
 build_addon(screensaver.asteroids ASTEROIDS DEPLIBS)

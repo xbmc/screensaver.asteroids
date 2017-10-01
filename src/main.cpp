@@ -27,7 +27,11 @@
 #include <kodi/addon-instance/Screensaver.h>
 
 #ifndef WIN32
+#ifdef __APPLE__
+#include <OpenGL/gl.h>
+#else
 #include <GL/gl.h>
+#endif
 #else
 #include <d3d11.h>
 #endif

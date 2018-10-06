@@ -35,7 +35,7 @@ typedef struct TRenderVertex
 class CAsteroids;
 class CTimer;
 
-class CMyAddon
+class ATTRIBUTE_HIDDEN CMyAddon
   : public kodi::addon::CAddonBase,
     public kodi::addon::CInstanceScreensaver
 {

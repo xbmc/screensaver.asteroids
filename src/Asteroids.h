@@ -23,7 +23,7 @@
 
 ////////////////////////////////////////////////////////////////////////////
 //
-class CAsteroids
+class ATTRIBUTE_HIDDEN CAsteroids
 {
 public:
   CAsteroids(CMyAddon* addon);

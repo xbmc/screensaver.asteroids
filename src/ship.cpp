@@ -52,7 +52,7 @@ void CShip::Update(f32 dt)
 
 ////////////////////////////////////////////////////////////////////////////
 //
-void CShip::Draw(CRenderD3D* render)
+void CShip::Draw(CMyAddon* render)
 {
   CRGBA col = CRGBA(1.0f, 1.0f, 1.0f, 1.0f);
   for (int lnr = 0; lnr < SHIPLINES; lnr++)

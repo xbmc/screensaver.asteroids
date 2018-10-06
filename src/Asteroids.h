@@ -28,10 +28,10 @@ class CAsteroids
 public:
   CAsteroids(CMyAddon* addon);
   ~CAsteroids();
-  bool RestoreDevice(CRenderD3D* render);
-  void InvalidateDevice(CRenderD3D* render);
+  bool RestoreDevice();
+  void InvalidateDevice();
   void Update(f32 dt);
-  bool Draw(CRenderD3D* render);
+  bool Draw();
 
 protected:
   CShip        m_Ship;

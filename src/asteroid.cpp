@@ -64,7 +64,7 @@ void CAsteroid::Update(f32 dt, int width, int height)
 
 ////////////////////////////////////////////////////////////////////////////
 //
-void CAsteroid::Draw(CRenderD3D* render)
+void CAsteroid::Draw(CMyAddon* render)
 {
   if (m_State == AS_NONE)
     return;

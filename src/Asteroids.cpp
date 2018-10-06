@@ -39,7 +39,7 @@ CAsteroids::~CAsteroids()
 
 ////////////////////////////////////////////////////////////////////////////
 //
-bool CAsteroids::RestoreDevice(CRenderD3D* render)
+bool CAsteroids::RestoreDevice()
 {
   Init();
   return true;
@@ -47,7 +47,7 @@ bool CAsteroids::RestoreDevice(CRenderD3D* render)
 
 ////////////////////////////////////////////////////////////////////////////
 //
-void CAsteroids::InvalidateDevice(CRenderD3D* render)
+void CAsteroids::InvalidateDevice()
 {
 }
 
@@ -217,13 +217,13 @@ void CAsteroids::PerformCollisions()
 
 ////////////////////////////////////////////////////////////////////////////
 //
-bool CAsteroids::Draw(CRenderD3D* render)
+bool CAsteroids::Draw()
 {
-  m_Ship.Draw(render);
+  m_Ship.Draw(m_addon);
   for (int i = 0; i < NUMBULLETS; i++)
-    m_Bullets[i].Draw(render);
+    m_Bullets[i].Draw(m_addon);
   for (int i = 0; i < NUMASTEROIDS; i++)
-    m_Asteroids[i].Draw(render);
+    m_Asteroids[i].Draw(m_addon);
   return true;
 }
 

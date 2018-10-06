@@ -49,7 +49,7 @@ void CBullet::Fire(const CVector2& pos, const CVector2& vel)
 
 ////////////////////////////////////////////////////////////////////////////
 //
-void CBullet::Draw(CRenderD3D* render)
+void CBullet::Draw(CMyAddon* render)
 {
   if (m_State != BS_ACTIVE)
     return;

@@ -26,6 +26,12 @@
 /****************************** M A C R O S ********************************/
 /***************************** C L A S S E S *******************************/
 
+typedef struct TRenderVertex
+{
+  f32 x, y, z;
+  float col[4];
+} TRenderVertex;
+
 class CAsteroids;
 class CTimer;
 
@@ -35,46 +41,23 @@ class CMyAddon
 {
 public:
   CMyAddon();
-  virtual ~CMyAddon();
 
   virtual bool Start() override;
   virtual void Stop() override;
   virtual void Render() override;
 
-private:
-  CAsteroids* m_asteroids;
-  CTimer* m_timer;
-};
-
-////////////////////////////////////////////////////////////////////////////
-//
-typedef struct TRenderVertex
-{
-  f32 x, y, z;
-  float col[4];
-} TRenderVertex;
-
-
-////////////////////////////////////////////////////////////////////////////
-//
-class CRenderD3D
-{
-public:
-  bool Init(void* pContext);
-  void DeInit();
-  bool RestoreDevice();
-  void InvalidateDevice();
   bool Begin();
   bool Draw();
   void DrawLine(const CVector2& pos1, const CVector2& pos2, const CRGBA& col1, const CRGBA& col2);
 
+private:
   s32 m_NumLines;
   int m_Width;
   int m_Height;
 
-  TRenderVertex*       m_Verts;
+  TRenderVertex* m_Verts;
 #ifndef WIN32
-  TRenderVertex*       m_VertBuf;
+  TRenderVertex* m_VertBuf;
   CGUIShader* m_shader;
   unsigned int m_vertexVBO;
   unsigned int m_vertexVAO;
@@ -85,6 +68,9 @@ public:
   ID3D11Buffer*        m_pVBuffer;
   ID3D11PixelShader*   m_pPShader;
 #endif
+
+  CAsteroids* m_asteroids;
+  CTimer* m_timer;
 };
 
 /***************************** I N L I N E S *******************************/

@@ -30,81 +30,7 @@
 
 #include <time.h>
 
-CRenderD3D gRender;
-
 #define BUFFER_OFFSET(i) ((char *)nullptr + (i))
-
-CMyAddon::CMyAddon()
-  : m_asteroids(nullptr),
-    m_timer(nullptr)
-{
-}
-
-CMyAddon::~CMyAddon()
-{
-  gRender.DeInit();
-}
-
-////////////////////////////////////////////////////////////////////////////
-// Kodi tells us we should get ready to start rendering. This function
-// is called once when the screensaver is activated by Kodi.
-//
-bool CMyAddon::Start()
-{
-  if (!gRender.Init(Device()))
-    return false;
-
-  gRender.m_Width = Width();
-  gRender.m_Height = Height();
-
-  srand((u32)time(nullptr));
-  m_asteroids = new CAsteroids(this);
-  if (!m_asteroids)
-    return false;
-
-  m_timer = new CTimer();
-  m_timer->Init();
-  if (!gRender.RestoreDevice() || !m_asteroids->RestoreDevice(&gRender))
-  {
-    Stop();
-    return false;
-  }
-
-  return true;
-}
-
-////////////////////////////////////////////////////////////////////////////
-// Kodi tells us to render a frame of our screensaver. This is called on
-// each frame render in Kodi, you should render a single frame only - the DX
-// device will already have been cleared.
-//
-void CMyAddon::Render()
-{
-  if (!m_asteroids)
-    return;
-
-  gRender.Begin();
-  m_timer->Update();
-  m_asteroids->Update(m_timer->GetDeltaTime());
-  m_asteroids->Draw(&gRender);
-  gRender.Draw();
-}
-
-////////////////////////////////////////////////////////////////////////////
-// Kodi tells us to stop the screensaver we should free any memory and release
-// any resources we have created.
-//
-void CMyAddon::Stop()
-{
-  if (!m_asteroids)
-    return;
-
-  gRender.InvalidateDevice();
-  m_asteroids->InvalidateDevice(&gRender);
-  SAFE_DELETE(m_asteroids);
-  SAFE_DELETE(m_timer);
-}
-
 
 ////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////
@@ -178,15 +104,23 @@ const BYTE PixelShader[] =
     171, 171
 };
 #endif
+
+CMyAddon::CMyAddon()
+  : m_asteroids(nullptr),
+    m_timer(nullptr)
+{
+}
+
 ////////////////////////////////////////////////////////////////////////////
+// Kodi tells us we should get ready to start rendering. This function
+// is called once when the screensaver is activated by Kodi.
 //
-bool CRenderD3D::Init(void* pContext)
+bool CMyAddon::Start()
 {
   m_NumLines = 0;
   m_Verts = nullptr;
 
 #ifndef WIN32
-
   m_shader = new CGUIShader("vert.glsl", "frag.glsl");
   if (!m_shader->CompileAndLink())
   {
@@ -199,7 +133,7 @@ bool CRenderD3D::Init(void* pContext)
   glGenBuffers(1, &m_indexVBO);
 
 #else
-  m_pContext = reinterpret_cast<ID3D11DeviceContext*>(pContext);
+  m_pContext = reinterpret_cast<ID3D11DeviceContext*>(Device());
   ID3D11Device* pDevice = nullptr;
   m_pContext->GetDevice(&pDevice);
 
@@ -209,40 +143,73 @@ bool CRenderD3D::Init(void* pContext)
   SAFE_RELEASE(pDevice);
 #endif
 
-  return true;
-}
+  m_Width = Width();
+  m_Height = Height();
 
-void CRenderD3D::DeInit()
-{
-#ifndef WIN32
-  glDeleteBuffers(1, &m_vertexVBO);
-  glDeleteBuffers(1, &m_indexVBO);
+  srand((u32)time(nullptr));
+  m_asteroids = new CAsteroids(this);
+  if (!m_asteroids)
+    return false;
 
-  delete m_shader;
-  m_shader = nullptr;
-#endif
-}
+  m_timer = new CTimer();
+  m_timer->Init();
+  if (!m_asteroids->RestoreDevice())
+  {
+    Stop();
+    return false;
+  }
 
-////////////////////////////////////////////////////////////////////////////
-//
-bool CRenderD3D::RestoreDevice()
-{
   return true;
 }
 
 ////////////////////////////////////////////////////////////////////////////
+// Kodi tells us to render a frame of our screensaver. This is called on
+// each frame render in Kodi, you should render a single frame only - the DX
+// device will already have been cleared.
 //
-void CRenderD3D::InvalidateDevice()
+void CMyAddon::Render()
 {
+  if (!m_asteroids)
+    return;
+
+  Begin();
+  m_timer->Update();
+  m_asteroids->Update(m_timer->GetDeltaTime());
+  m_asteroids->Draw();
+  Draw();
+}
+
+////////////////////////////////////////////////////////////////////////////
+// Kodi tells us to stop the screensaver we should free any memory and release
+// any resources we have created.
+//
+void CMyAddon::Stop()
+{
+  if (!m_asteroids)
+    return;
+
 #ifdef WIN32
   SAFE_RELEASE(m_pPShader);
   SAFE_RELEASE(m_pVBuffer);
 #endif
+
+  m_asteroids->InvalidateDevice();
+  SAFE_DELETE(m_asteroids);
+  SAFE_DELETE(m_timer);
+
+#ifndef WIN32
+  glDeleteBuffers(1, &m_vertexVBO);
+  m_vertexVBO = 0;
+  glDeleteBuffers(1, &m_indexVBO);
+  m_indexVBO = 0;
+
+  SAFE_DELETE(m_shader);
+#endif
 }
 
 ////////////////////////////////////////////////////////////////////////////
 //
-bool CRenderD3D::Begin()
+bool CMyAddon::Begin()
 {
 #ifdef WIN32
   D3D11_MAPPED_SUBRESOURCE res = {};
@@ -254,7 +221,7 @@ bool CRenderD3D::Begin()
 
 ////////////////////////////////////////////////////////////////////////////
 //
-bool CRenderD3D::Draw()
+bool CMyAddon::Draw()
 {
   if (m_NumLines == 0)
     return true;
@@ -269,8 +236,8 @@ bool CRenderD3D::Draw()
 
   for (size_t j = 0; j < m_NumLines * 2; ++j)
   {
-    vertex[j].x = (m_VertBuf[j].x - gRender.m_Width / 2.0f) / gRender.m_Width * 2.0f;
-    vertex[j].y = (m_VertBuf[j].y - gRender.m_Height / 2.0f) / gRender.m_Height * 2.0f;
+    vertex[j].x = (m_VertBuf[j].x - m_Width / 2.0f) / m_Width * 2.0f;
+    vertex[j].y = (m_VertBuf[j].y - m_Height / 2.0f) / m_Height * 2.0f;
     vertex[j].z = 0.0;
     vertex[j].r = m_VertBuf[j].col[0];
     vertex[j].g = m_VertBuf[j].col[1];
@@ -315,7 +282,7 @@ bool CRenderD3D::Draw()
 
 ////////////////////////////////////////////////////////////////////////////
 //
-void CRenderD3D::DrawLine(const CVector2& pos1, const CVector2& pos2, const CRGBA& col1, const CRGBA& col2)
+void CMyAddon::DrawLine(const CVector2& pos1, const CVector2& pos2, const CRGBA& col1, const CRGBA& col2)
 {
   if (m_NumLines >= NUMLINES)
   {

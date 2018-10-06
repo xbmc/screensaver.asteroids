@@ -26,7 +26,8 @@
 
 ////////////////////////////////////////////////////////////////////////////
 //
-CAsteroids::CAsteroids()
+CAsteroids::CAsteroids(CMyAddon* addon)
+  : m_addon(addon)
 {
 }
 
@@ -65,7 +66,7 @@ void CAsteroids::Init()
   for (int i = 0; i < NUMASTEROIDS / NUMASTEROIDFRAGMENTS; i++)
   {
     m_Asteroids[i].Init(AT_BIG);
-    m_Asteroids[i].m_Pos = CVector2((f32)gRender.m_Width*RandFloat(), (f32)gRender.m_Height*RandFloat());
+    m_Asteroids[i].m_Pos = CVector2((f32)m_addon->Width()*RandFloat(), (f32)m_addon->Height()*RandFloat());
     m_Asteroids[i].SetVel(CVector2(RandSFloat()*100.0f, RandSFloat()*100.0f));
     m_Asteroids[i].m_State = AS_ACTIVE;
   }
@@ -83,7 +84,7 @@ void CAsteroids::Update(f32 dt)
   for (int anr = 0; anr < NUMASTEROIDS; anr++)
   {
     CAsteroid* asteroid = &m_Asteroids[anr];
-    if (asteroid->m_State == AS_NONE)  
+    if (asteroid->m_State == AS_NONE)
       continue;
     numActiveAsteroids++;
   }
@@ -102,12 +103,15 @@ void CAsteroids::Update(f32 dt)
 
   ShipAI(dt);
 
+  int width = m_addon->Width();
+  int height = m_addon->Height();
+
   // Update
   m_Ship.Update(dt);
   for (int bnr=0; bnr<NUMBULLETS; bnr++)
-    m_Bullets[bnr].Update(dt);
+    m_Bullets[bnr].Update(dt, width, height);
   for (int anr=0; anr<NUMASTEROIDS; anr++)
-    m_Asteroids[anr].Update(dt);
+    m_Asteroids[anr].Update(dt, width, height);
 
   PerformCollisions();
 }
@@ -122,7 +126,7 @@ void CAsteroids::ShipAI(f32 dt)
   for (int anr = 0; anr < NUMASTEROIDS; anr++)
   {
     CAsteroid* asteroid = &m_Asteroids[anr];
-    if (asteroid->m_State != AS_ACTIVE)  
+    if (asteroid->m_State != AS_ACTIVE)
       continue;
     f32 dist = SquareMagnitude(m_Ship.m_Pos-asteroid->m_Pos);
     if ((closestIndex == -1) || (dist < distMin))
@@ -130,7 +134,7 @@ void CAsteroids::ShipAI(f32 dt)
       closestIndex = anr;
       distMin = dist;
     }
-  }  
+  }
   if (closestIndex == -1)
     return;
 
@@ -259,7 +263,7 @@ void CAsteroids::Warp()
   {
     bool valid = true;
     // Get new pos. Keep us away from the corners
-    m_Ship.m_Pos = CVector2((f32)gRender.m_Width * RandFloat(0.2f, 0.8f), (f32)gRender.m_Height * RandFloat(0.2f, 0.8f));
+    m_Ship.m_Pos = CVector2((f32)m_addon->Width() * RandFloat(0.2f, 0.8f), (f32)m_addon->Height() * RandFloat(0.2f, 0.8f));
     for (int anr = 0; anr < NUMASTEROIDS; anr++)
     {
       CAsteroid* asteroid = &m_Asteroids[anr];

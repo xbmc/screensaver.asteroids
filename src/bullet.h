@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////
-// 
+//
 //
 // Author:
 //   Joakim Eriksson
@@ -20,7 +20,7 @@ enum EBulletState
 /***************************** C L A S S E S *******************************/
 
 ////////////////////////////////////////////////////////////////////////////
-// 
+//
 class CBullet
 {
 public:
@@ -28,7 +28,7 @@ public:
   ~CBullet();
 
   void Draw(CRenderD3D* render);
-  void Update(f32 dt);
+  void Update(f32 dt, int width, int height);
 
   void Fire(const CVector2& pos, const CVector2& vel);
 

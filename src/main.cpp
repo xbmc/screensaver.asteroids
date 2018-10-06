@@ -24,8 +24,6 @@
 ////////////////////////////////////////////////////////////////////////////
 //
 
-#include <kodi/addon-instance/Screensaver.h>
-
 #include "main.h"
 #include "Asteroids.h"
 #include "timer.h"
@@ -35,23 +33,6 @@
 CRenderD3D gRender;
 
 #define BUFFER_OFFSET(i) ((char *)nullptr + (i))
-
-class CMyAddon
-  : public kodi::addon::CAddonBase,
-    public kodi::addon::CInstanceScreensaver
-{
-public:
-  CMyAddon();
-  virtual ~CMyAddon();
-
-  virtual bool Start() override;
-  virtual void Stop() override;
-  virtual void Render() override;
-
-private:
-  CAsteroids* m_asteroids;
-  CTimer* m_timer;
-};
 
 CMyAddon::CMyAddon()
   : m_asteroids(nullptr),
@@ -77,7 +58,7 @@ bool CMyAddon::Start()
   gRender.m_Height = Height();
 
   srand((u32)time(nullptr));
-  m_asteroids = new CAsteroids();
+  m_asteroids = new CAsteroids(this);
   if (!m_asteroids)
     return false;
 

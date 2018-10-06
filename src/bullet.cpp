@@ -36,14 +36,14 @@ void CBullet::Fire(const CVector2& pos, const CVector2& vel)
 
 ////////////////////////////////////////////////////////////////////////////
 //
-void CBullet::Update(f32 dt)
+ void CBullet::Update(f32 dt, int width, int height)
 {
   if (m_State != BS_ACTIVE)
     return;
   m_Pos += m_Vel*dt;
 
   // Removed if moved outside screen
-  if ((m_Pos.x < 0.0f) || (m_Pos.x > gRender.m_Width)  || (m_Pos.y < 0.0f) || (m_Pos.y > gRender.m_Height))
+  if ((m_Pos.x < 0.0f) || (m_Pos.x > width)  || (m_Pos.y < 0.0f) || (m_Pos.y > height))
     m_State = BS_NONE;
 }
 

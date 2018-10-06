@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////
-// 
+//
 //
 // Author:
 //   Joakim Eriksson
@@ -24,7 +24,7 @@ CAsteroid::~CAsteroid()
 
 ////////////////////////////////////////////////////////////////////////////
 //
-void CAsteroid::Update(f32 dt)
+void CAsteroid::Update(f32 dt, int width, int height)
 {
   switch (m_State)
   {
@@ -33,14 +33,14 @@ void CAsteroid::Update(f32 dt)
       m_Rot += m_RotVel * dt;
 
       // Wrap around the screen
-      if (m_Pos.x-m_Size/2.0f > gRender.m_Width)
-        m_Pos.x -= gRender.m_Width+m_Size;
+      if (m_Pos.x-m_Size/2.0f > width)
+        m_Pos.x -= width+m_Size;
       if (m_Pos.x+m_Size/2.0f < 0.0f)
-        m_Pos.x += gRender.m_Width+m_Size;
-      if (m_Pos.y-m_Size/2.0f > gRender.m_Height)
-        m_Pos.y -= gRender.m_Height+m_Size;
+        m_Pos.x += width+m_Size;
+      if (m_Pos.y-m_Size/2.0f > height)
+        m_Pos.y -= height+m_Size;
       if (m_Pos.y+m_Size/2.0f < 0.0f)
-        m_Pos.y += gRender.m_Height+m_Size;
+        m_Pos.y += height+m_Size;
       break;
     case AS_EXPLODING:
       m_Time -= dt;

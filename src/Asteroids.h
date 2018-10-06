@@ -26,7 +26,7 @@
 class CAsteroids
 {
 public:
-  CAsteroids();
+  CAsteroids(CMyAddon* addon);
   ~CAsteroids();
   bool RestoreDevice(CRenderD3D* render);
   void InvalidateDevice(CRenderD3D* render);
@@ -45,6 +45,9 @@ protected:
   void Warp();
   void ShipAI(f32 dt);
   void PerformCollisions();
+
+private:
+  CMyAddon* m_addon;
 };
 
 /***************************** I N L I N E S *******************************/

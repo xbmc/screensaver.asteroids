@@ -7,6 +7,8 @@
 
 #pragma once
 
+#include <kodi/addon-instance/Screensaver.h>
+
 #ifndef WIN32
   #include "shaders/GUIShader.h"
 #else
@@ -23,6 +25,26 @@
 
 /****************************** M A C R O S ********************************/
 /***************************** C L A S S E S *******************************/
+
+class CAsteroids;
+class CTimer;
+
+class CMyAddon
+  : public kodi::addon::CAddonBase,
+    public kodi::addon::CInstanceScreensaver
+{
+public:
+  CMyAddon();
+  virtual ~CMyAddon();
+
+  virtual bool Start() override;
+  virtual void Stop() override;
+  virtual void Render() override;
+
+private:
+  CAsteroids* m_asteroids;
+  CTimer* m_timer;
+};
 
 ////////////////////////////////////////////////////////////////////////////
 //
@@ -64,9 +86,5 @@ public:
   ID3D11PixelShader*   m_pPShader;
 #endif
 };
-
-/***************************** G L O B A L S *******************************/
-
-extern  CRenderD3D  gRender;
 
 /***************************** I N L I N E S *******************************/

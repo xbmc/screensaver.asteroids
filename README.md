@@ -2,8 +2,8 @@
 
 This is a [Kodi](http://kodi.tv) screensaver addon.
 
-[![Build Status](https://travis-ci.org/notspiff/screensaver.asteroids.svg?branch=master)](https://travis-ci.org/notspiff/screensaver.asteroids)
-[![Build Status](https://ci.appveyor.com/api/projects/status/github/notspiff/screensaver.asteroids?svg=true)](https://ci.appveyor.com/project/notspiff/screensaver-asteroids)
+[![Build Status](https://travis-ci.org/xbmc/screensaver.asteroids.svg?branch=master)](https://travis-ci.org/xbmc/screensaver.asteroids)
+[![Build Status](https://ci.appveyor.com/api/projects/status/github/xbmc/screensaver.asteroids?svg=true)](https://ci.appveyor.com/project/xbmc/screensaver-asteroids)
 
 ## Build instructions
 
@@ -17,7 +17,7 @@ The following instructions assume you will have built Kodi already in the `kodi-
 suggested by the README.
 
 1. `git clone https://github.com/xbmc/xbmc.git`
-2. `git clone https://github.com/notspiff/screensaver.asteroids.git`
+2. `git clone https://github.com/xbmc/screensaver.asteroids.git`
 3. `cd screensaver.asteroids && mkdir build && cd build`
 4. `cmake -DADDONS_TO_BUILD=screensaver.asteroids -DADDON_SRC_PREFIX=../.. -DCMAKE_BUILD_TYPE=Debug -DCMAKE_INSTALL_PREFIX=../../xbmc/kodi-build/addons -DPACKAGE_ZIP=1 ../../xbmc/cmake/addons`
 5. `make`

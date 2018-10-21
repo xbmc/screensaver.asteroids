@@ -26,15 +26,6 @@
 
 #include <kodi/addon-instance/Screensaver.h>
 
-#ifndef WIN32
-#ifdef __APPLE__
-#include <OpenGL/gl.h>
-#else
-#include <GL/gl.h>
-#endif
-#else
-#include <d3d11.h>
-#endif
 #include "main.h"
 #include "Asteroids.h"
 #include "timer.h"
@@ -43,12 +34,15 @@
 
 CRenderD3D gRender;
 
+#define BUFFER_OFFSET(i) ((char *)nullptr + (i))
+
 class CMyAddon
   : public kodi::addon::CAddonBase,
     public kodi::addon::CInstanceScreensaver
 {
 public:
   CMyAddon();
+  virtual ~CMyAddon();
 
   virtual bool Start() override;
   virtual void Stop() override;
@@ -63,9 +57,11 @@ CMyAddon::CMyAddon()
   : m_asteroids(nullptr),
     m_timer(nullptr)
 {
-  gRender.Init(Device());
-  gRender.m_Width = Width();
-  gRender.m_Height = Height();
+}
+
+CMyAddon::~CMyAddon()
+{
+  gRender.DeInit();
 }
 
 ////////////////////////////////////////////////////////////////////////////
@@ -74,7 +70,13 @@ CMyAddon::CMyAddon()
 //
 bool CMyAddon::Start()
 {
-  srand((u32)time(null));
+  if (!gRender.Init(Device()))
+    return false;
+
+  gRender.m_Width = Width();
+  gRender.m_Height = Height();
+
+  srand((u32)time(nullptr));
   m_asteroids = new CAsteroids();
   if (!m_asteroids)
     return false;
@@ -197,11 +199,25 @@ const BYTE PixelShader[] =
 #endif
 ////////////////////////////////////////////////////////////////////////////
 //
-void CRenderD3D::Init(void* pContext)
+bool CRenderD3D::Init(void* pContext)
 {
   m_NumLines = 0;
-  m_Verts = null;
-#ifdef WIN32
+  m_Verts = nullptr;
+
+#ifndef WIN32
+
+  m_shader = new CGUIShader("vert.glsl", "frag.glsl");
+  if (!m_shader->CompileAndLink())
+  {
+    delete m_shader;
+    m_shader = nullptr;
+    return false;
+  }
+
+  glGenBuffers(1, &m_vertexVBO);
+  glGenBuffers(1, &m_indexVBO);
+
+#else
   m_pContext = reinterpret_cast<ID3D11DeviceContext*>(pContext);
   ID3D11Device* pDevice = nullptr;
   m_pContext->GetDevice(&pDevice);
@@ -210,6 +226,19 @@ void CRenderD3D::Init(void* pContext)
   pDevice->CreateBuffer(&vbDesc, nullptr, &m_pVBuffer);
   pDevice->CreatePixelShader(PixelShader, sizeof(PixelShader), nullptr, &m_pPShader);
   SAFE_RELEASE(pDevice);
+#endif
+
+  return true;
+}
+
+void CRenderD3D::DeInit()
+{
+#ifndef WIN32
+  glDeleteBuffers(1, &m_vertexVBO);
+  glDeleteBuffers(1, &m_indexVBO);
+
+  delete m_shader;
+  m_shader = nullptr;
 #endif
 }
 
@@ -248,21 +277,54 @@ bool CRenderD3D::Draw()
 {
   if (m_NumLines == 0)
     return true;
+
 #ifndef WIN32
-  glBegin(GL_LINES);
+  struct PackedVertex
+  {
+    GLfloat x, y, z;
+    GLfloat r, g, b;
+  } vertex[m_NumLines * 2];
+  unsigned int idx[m_NumLines * 2];
+
   for (size_t j = 0; j < m_NumLines * 2; ++j)
   {
-    glColor4f(m_VertBuf[j].col[0], m_VertBuf[j].col[1], m_VertBuf[j].col[2], m_VertBuf[j].col[3]);
-    glVertex2f(m_VertBuf[j].x, m_VertBuf[j].y);
+    vertex[j].x = (m_VertBuf[j].x - gRender.m_Width / 2.0f) / gRender.m_Width * 2.0f;
+    vertex[j].y = (m_VertBuf[j].y - gRender.m_Height / 2.0f) / gRender.m_Height * 2.0f;
+    vertex[j].z = 0.0;
+    vertex[j].r = m_VertBuf[j].col[0];
+    vertex[j].g = m_VertBuf[j].col[1];
+    vertex[j].b = m_VertBuf[j].col[2];
+    idx[j] = j;
   }
-  glEnd();
+
+  GLint colLoc = m_shader->GetColLoc();
+
+  glBindBuffer(GL_ARRAY_BUFFER, m_vertexVBO);
+  glBufferData(GL_ARRAY_BUFFER, sizeof(PackedVertex)*m_NumLines*2, vertex, GL_STATIC_DRAW);
+
+  glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_indexVBO);
+  glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(idx), idx, GL_STATIC_DRAW);
+
+  glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(PackedVertex), BUFFER_OFFSET(offsetof(PackedVertex, x)));
+  glEnableVertexAttribArray(0);
+
+  glVertexAttribPointer(colLoc, 3, GL_FLOAT, GL_FALSE, sizeof(PackedVertex), BUFFER_OFFSET(offsetof(PackedVertex, r)));
+  glEnableVertexAttribArray(colLoc);
+
+  glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+  // render
+  m_shader->Enable();
+  glDrawArrays(GL_LINES, 0, m_NumLines * 2);
+  m_shader->Disable();
+
   m_Verts = m_VertBuf;
 #else
   m_pContext->Unmap(m_pVBuffer, 0);
   m_pContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_LINELIST);
   UINT strides = sizeof(TRenderVertex), offsets = 0;
   m_pContext->IASetVertexBuffers(0, 1, &m_pVBuffer, &strides, &offsets);
-  m_pContext->PSSetShader(m_pPShader, NULL, 0);
+  m_pContext->PSSetShader(m_pPShader, nullptr, 0);
   m_pContext->Draw(m_NumLines * 2, 0);
   Begin();
 #endif
@@ -279,7 +341,7 @@ void CRenderD3D::DrawLine(const CVector2& pos1, const CVector2& pos2, const CRGB
     Draw();
   }
 #ifndef WIN32
-  if (m_Verts == null)
+  if (m_Verts == nullptr)
   {
     m_VertBuf = new TRenderVertex[10000];
     m_Verts = m_VertBuf;

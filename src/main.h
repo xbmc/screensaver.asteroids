@@ -7,12 +7,16 @@
 
 #pragma once
 
+#ifndef WIN32
+  #include "shaders/GUIShader.h"
+#else
+  #include <d3d11.h>
+#endif
+
 #include <stdio.h>
 #include <stdlib.h>
 #include "types.h"
-#ifdef WIN32
-#include <d3d11.h>
-#endif
+
 /***************************** D E F I N E S *******************************/
 
 #define NUMLINES    100
@@ -52,11 +56,12 @@ public:
 
 
 ////////////////////////////////////////////////////////////////////////////
-// 
+//
 class CRenderD3D
 {
 public:
-  void Init(void* pContext);
+  bool Init(void* pContext);
+  void DeInit();
   bool RestoreDevice();
   void InvalidateDevice();
   bool Begin();
@@ -70,6 +75,11 @@ public:
   TRenderVertex*       m_Verts;
 #ifndef WIN32
   TRenderVertex*       m_VertBuf;
+  CGUIShader* m_shader;
+  unsigned int m_vertexVBO;
+  unsigned int m_vertexVAO;
+  unsigned int m_indexVBO;
+
 #else
   ID3D11DeviceContext* m_pContext;
   ID3D11Buffer*        m_pVBuffer;

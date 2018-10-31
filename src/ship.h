@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////
-// 
+//
 //
 // Author:
 //   Joakim Eriksson
@@ -25,7 +25,7 @@ public:
   CShip();
   ~CShip();
   void Update(f32 dt);
-  void Draw(CRenderD3D* render);
+  void Draw(CMyAddon* render);
   CVector2 GetDirVec();
   CVector2 GetTangDirVec();
   bool CanFire();

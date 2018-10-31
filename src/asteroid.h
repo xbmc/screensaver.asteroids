@@ -38,8 +38,8 @@ public:
   ~CAsteroid();
 
   void Init(EAsteroidType type);
-  void Update(f32 dt);
-  void Draw(CRenderD3D* render);
+  void Update(f32 dt, int width, int height);
+  void Draw(CMyAddon* render);
 
   void Explode(const CVector2& vel);
   bool Intersects(const CVector2& pos);

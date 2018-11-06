@@ -1,0 +1,23 @@
+Source: kodi-screensaver-asteroids
+Priority: extra
+Maintainer: Arne Morten Kvarving <spiff@xbmc.org>
+Build-Depends: debhelper (>= 8.0.0), cmake, kodi-addon-dev,
+               libgl1-mesa-dev
+Standards-Version: 3.9.5
+Section: libs
+Homepage: http://xbmc.org
+
+Package: kodi-screensaver-asteroids
+Section: libs
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: Asteroids screensaver for Kodi
+ Asteroids screensaver for Kodi
+
+Package: kodi-screensaver-asteroids-dbg
+Section: debug
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: debug symbols for Asteroids screensaver for Kodi
+ debug symbols for Asteroids screensaver for Kodi
+

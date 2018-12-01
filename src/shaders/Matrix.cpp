@@ -61,7 +61,7 @@ void CMatrix::MatrixMode(EMATRIXMODE mode)
   else
   {
     m_matrixMode = (EMATRIXMODE)-1;
-    m_pMatrix    = nullptr;
+    m_pMatrix = nullptr;
   }
 }
 

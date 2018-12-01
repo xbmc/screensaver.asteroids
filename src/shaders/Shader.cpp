@@ -40,7 +40,6 @@ bool CShader::LoadSource(std::string &file)
     kodi::Log(ADDON_LOG_ERROR, "Failed to load shader source: '%s'", file.c_str());
     return false;
   }
-
   size_t len = source.Read(buffer, sizeof(buffer));
   m_source.assign(buffer);
   m_source[len] = 0;
@@ -66,22 +65,16 @@ bool CVertexShader::Compile()
   if (params[0] != GL_TRUE)
   {
     GLchar log[LOG_SIZE];
-    kodi::Log(ADDON_LOG_ERROR, "GL: Error compiling vertex shader");
     glGetShaderInfoLog(m_vertexShader, LOG_SIZE, nullptr, log);
-    kodi::Log(ADDON_LOG_ERROR, "%s", log);
+    kodi::Log(ADDON_LOG_ERROR, "CVertexShader::%s: %s", __FUNCTION__, log);
     m_lastLog = log;
     m_compiled = false;
   }
   else
   {
     GLchar log[LOG_SIZE];
-    GLsizei length;
-    glGetShaderInfoLog(m_vertexShader, LOG_SIZE, &length, log);
-    if (length > 0)
-    {
-      kodi::Log(ADDON_LOG_DEBUG, "GL: Vertex Shader compilation log:");
-      kodi::Log(ADDON_LOG_DEBUG, "%s", log);
-    }
+    glGetShaderInfoLog(m_vertexShader, LOG_SIZE, nullptr, log);
+    kodi::Log(ADDON_LOG_ERROR, "CVertexShader::%s: %s", __FUNCTION__, log);
     m_lastLog = log;
     m_compiled = true;
   }
@@ -105,10 +98,7 @@ bool CPixelShader::Compile()
   Free();
 
   if (m_source.length()==0)
-  {
-    kodi::Log(ADDON_LOG_NOTICE, "GL: No pixel shader, fixed pipeline in use");
     return true;
-  }
 
   m_pixelShader = glCreateShader(GL_FRAGMENT_SHADER);
   const char *ptr = m_source.c_str();
@@ -118,22 +108,16 @@ bool CPixelShader::Compile()
   if (params[0] != GL_TRUE)
   {
     GLchar log[LOG_SIZE];
-    kodi::Log(ADDON_LOG_ERROR, "GL: Error compiling pixel shader");
     glGetShaderInfoLog(m_pixelShader, LOG_SIZE, nullptr, log);
-    kodi::Log(ADDON_LOG_ERROR, "%s", log);
+    kodi::Log(ADDON_LOG_ERROR, "CPixelShader::%s: %s", __FUNCTION__, log);
     m_lastLog = log;
     m_compiled = false;
   }
   else
   {
     GLchar log[LOG_SIZE];
-    GLsizei length;
     glGetShaderInfoLog(m_pixelShader, LOG_SIZE, nullptr, log);
-    if (length > 0)
-    {
-      kodi::Log(ADDON_LOG_DEBUG, "GL: Pixel Shader compilation log:");
-      kodi::Log(ADDON_LOG_DEBUG, "%s", log);
-    }
+    kodi::Log(ADDON_LOG_ERROR, "CPixelShader::%s: %s", __FUNCTION__, log);
     m_lastLog = log;
     m_compiled = true;
   }
@@ -155,30 +139,15 @@ CShaderProgram::CShaderProgram(std::string &vert, std::string &frag)
 {
   std::string path = kodi::GetAddonPath();
 
-  int major = 0;
-  int minor = 0;
-  const char* ver = reinterpret_cast<const char*>(glGetString(GL_VERSION));
-  if (ver != 0)
-  {
-    sscanf(ver, "%d.%d", &major, &minor);
-  }
-
-  if (major > 3)
-  {
 #if defined(HAS_GL)
-    path += "/resources/shaders/GL/1.5/";
+  path += "/resources/shaders/GL/";
+#elif defined(HAS_GLES)
+  path += "/resources/shaders/GLES/";
 #else
-    path += "/resources/shaders/GLES/3.0/";
+  #error Shader compiled without GL support!
 #endif
-  }
-  else
-  {
-    kodi::Log(ADDON_LOG_FATAL, "GL: Not supported OpenGL: %s", ver);
-    return;
-  }
 
   std::string file;
-
   m_pFP = new CPixelShader();
   file = path + frag;
   m_pFP->LoadSource(file);
@@ -238,12 +207,11 @@ bool CShaderProgram::CompileAndLink()
   // link the program
   glLinkProgram(m_shaderProgram);
   glGetProgramiv(m_shaderProgram, GL_LINK_STATUS, params);
-  if (params[0]!=GL_TRUE)
+  if (params[0] != GL_TRUE)
   {
     GLchar log[LOG_SIZE];
-    kodi::Log(ADDON_LOG_ERROR, "GL: Error linking shader");
-    glGetProgramInfoLog(m_shaderProgram, LOG_SIZE, NULL, log);
-    kodi::Log(ADDON_LOG_ERROR, "%s", log);
+    glGetProgramInfoLog(m_shaderProgram, LOG_SIZE, nullptr, log);
+    kodi::Log(ADDON_LOG_ERROR, "CShaderProgram::%s: %s", __FUNCTION__, log);
     goto error;
   }
 
@@ -274,9 +242,8 @@ bool CShaderProgram::Enable()
         if (params[0] != GL_TRUE)
         {
           GLchar log[LOG_SIZE];
-          kodi::Log(ADDON_LOG_ERROR, "GL: Error validating shader");
           glGetProgramInfoLog(m_shaderProgram, LOG_SIZE, nullptr, log);
-          kodi::Log(ADDON_LOG_ERROR, "%s", log);
+          kodi::Log(ADDON_LOG_ERROR, "CShaderProgram::%s: %s", __FUNCTION__, log);
         }
         m_validated = true;
       }

@@ -1,4 +1,3 @@
-#pragma once
 /*
  *  Copyright (C) 2005-2018 Team Kodi
  *  This file is part of Kodi - https://kodi.tv
@@ -19,22 +18,40 @@
  *
  */
 
-#if defined(HAS_GL)
-#if defined(__APPLE__)
-#include <OpenGL/gl3.h>
-#else
-#define GL_GLEXT_PROTOTYPES
-#include <GL/gl.h>
-#include <GL/glext.h>
-#endif//__APPLE__
-#else
-#if defined(__APPLE__)
-#include <OpenGLES/ES2/gl.h>
-#include <OpenGLES/ES2/glext.h>
-#else
-#include <GLES2/gl2.h>
-#include <GLES2/gl2ext.h>
-#endif//__APPLE__
+#pragma once
+
+#ifdef HAS_GL
+  // always define GL_GLEXT_PROTOTYPES before include gl headers
+  #if !defined(GL_GLEXT_PROTOTYPES)
+    #define GL_GLEXT_PROTOTYPES
+  #endif
+  #if defined(TARGET_LINUX)
+    #include <GL/gl.h>
+    #include <GL/glext.h>
+  #elif defined(TARGET_FREEBSD)
+    #include <GL/gl.h>
+  #elif defined(TARGET_DARWIN)
+    #include <OpenGL/gl3.h>
+    #include <OpenGL/gl3ext.h>
+  #endif
+#elif HAS_GLES >= 2
+  #if defined(TARGET_DARWIN)
+    #if HAS_GLES == 3
+      #include <OpenGLES/ES3/gl.h>
+      #include <OpenGLES/ES3/glext.h>
+    #else
+      #include <OpenGLES/ES2/gl.h>
+      #include <OpenGLES/ES2/glext.h>
+    #endif
+  #else
+    #if HAS_GLES == 3
+      #include <GLES3/gl3.h>
+      #include <GLES3/gl3ext.h>
+    #else
+      #include <GLES2/gl2.h>
+      #include <GLES2/gl2ext.h>
+    #endif
+  #endif
 #endif
 
 #include <vector>

@@ -130,7 +130,6 @@ bool CMyAddon::Start()
   }
 
   glGenBuffers(1, &m_vertexVBO);
-  glGenBuffers(1, &m_indexVBO);
 
 #else
   m_pContext = reinterpret_cast<ID3D11DeviceContext*>(Device());
@@ -172,6 +171,11 @@ void CMyAddon::Render()
   if (!m_asteroids)
     return;
 
+#ifndef WIN32
+  glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+  glClear(GL_COLOR_BUFFER_BIT);
+#endif
+
   Begin();
   m_timer->Update();
   m_asteroids->Update(m_timer->GetDeltaTime());
@@ -200,8 +204,6 @@ void CMyAddon::Stop()
 #ifndef WIN32
   glDeleteBuffers(1, &m_vertexVBO);
   m_vertexVBO = 0;
-  glDeleteBuffers(1, &m_indexVBO);
-  m_indexVBO = 0;
 
   SAFE_DELETE(m_shader);
 #endif
@@ -232,7 +234,6 @@ bool CMyAddon::Draw()
     GLfloat x, y, z;
     GLfloat r, g, b;
   } vertex[m_NumLines * 2];
-  unsigned int idx[m_NumLines * 2];
 
   for (size_t j = 0; j < m_NumLines * 2; ++j)
   {
@@ -242,16 +243,12 @@ bool CMyAddon::Draw()
     vertex[j].r = m_VertBuf[j].col[0];
     vertex[j].g = m_VertBuf[j].col[1];
     vertex[j].b = m_VertBuf[j].col[2];
-    idx[j] = j;
   }
 
   GLint colLoc = m_shader->GetColLoc();
 
   glBindBuffer(GL_ARRAY_BUFFER, m_vertexVBO);
   glBufferData(GL_ARRAY_BUFFER, sizeof(PackedVertex)*m_NumLines*2, vertex, GL_STATIC_DRAW);
-
-  glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_indexVBO);
-  glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(idx), idx, GL_STATIC_DRAW);
 
   glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(PackedVertex), BUFFER_OFFSET(offsetof(PackedVertex, x)));
   glEnableVertexAttribArray(0);

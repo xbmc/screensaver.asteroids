@@ -60,8 +60,6 @@ private:
   TRenderVertex* m_VertBuf;
   CGUIShader* m_shader;
   unsigned int m_vertexVBO;
-  unsigned int m_vertexVAO;
-  unsigned int m_indexVBO;
 
 #else
   ID3D11DeviceContext* m_pContext;

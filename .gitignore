@@ -1,7 +1,16 @@
 # build artifacts
 build/
+screensaver.*/addon.xml
+
+# Debian build files
+debian/changelog
+debian/files
+debian/*.log
+debian/*.substvars
+debian/.debhelper/
+debian/tmp/
+debian/kodi-screensaver-*/
 obj-x86_64-linux-gnu/
-screensaver.asteroids/addon.xml
 
 # commonly used editors
 # vim

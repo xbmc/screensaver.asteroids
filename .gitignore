@@ -37,3 +37,5 @@ obj-x86_64-linux-gnu/
 
 # KDev
 *.kdev4
+
+.vs/

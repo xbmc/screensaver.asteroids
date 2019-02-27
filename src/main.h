@@ -7,28 +7,18 @@
 
 #pragma once
 
+#include <glm/gtc/type_ptr.hpp>
+#include <kodi/gui/gl/GL.h>
+#include <kodi/gui/gl/Shader.h>
 #include <kodi/addon-instance/Screensaver.h>
 
-#ifndef WIN32
-  #include "shaders/GUIShader.h"
-#else
-  #include <d3d11.h>
-#endif
-
-#include <stdio.h>
-#include <stdlib.h>
 #include "types.h"
 
-/***************************** D E F I N E S *******************************/
-
-#define NUMLINES    100
-
-/****************************** M A C R O S ********************************/
-/***************************** C L A S S E S *******************************/
+#define NUMLINES 100
 
 typedef struct TRenderVertex
 {
-  f32 x, y, z;
+  float x, y, z;
   float col[4];
 } TRenderVertex;
 
@@ -37,7 +27,9 @@ class CTimer;
 
 class ATTRIBUTE_HIDDEN CMyAddon
   : public kodi::addon::CAddonBase,
-    public kodi::addon::CInstanceScreensaver
+    public kodi::addon::CInstanceScreensaver,
+    /*public kodi::gui::gl::CGLonDX,*/
+    public kodi::gui::gl::CShaderProgram
 {
 public:
   CMyAddon();
@@ -46,29 +38,22 @@ public:
   virtual void Stop() override;
   virtual void Render() override;
 
-  bool Begin();
+  void OnCompiledAndLinked() override;
+  bool OnEnabled() override;
+
   bool Draw();
   void DrawLine(const CVector2& pos1, const CVector2& pos2, const CRGBA& col1, const CRGBA& col2);
 
 private:
-  s32 m_NumLines;
-  int m_Width;
-  int m_Height;
-
-  TRenderVertex* m_Verts;
-#ifndef WIN32
-  TRenderVertex* m_VertBuf;
-  CGUIShader* m_shader;
+  size_t m_NumLines;
+  glm::mat4 m_projMat;
   unsigned int m_vertexVBO;
-
-#else
-  ID3D11DeviceContext* m_pContext;
-  ID3D11Buffer*        m_pVBuffer;
-  ID3D11PixelShader*   m_pPShader;
-#endif
-
+  TRenderVertex* m_Verts;
+  TRenderVertex* m_VertBuf;
   CAsteroids* m_asteroids;
   CTimer* m_timer;
-};
 
-/***************************** I N L I N E S *******************************/
+  GLint m_uProjMatrix = -1;
+  GLint m_aPosition = -1;
+  GLint m_aColor = -1;
+};

@@ -9,6 +9,8 @@ enable_language(CXX)
 find_package(Kodi REQUIRED)
 
 if(NOT WIN32)
+  find_package(glm REQUIRED)
+
   if(APP_RENDER_SYSTEM STREQUAL "gl" OR NOT APP_RENDER_SYSTEM)
     find_package(OpenGl REQUIRED)
     set(DEPLIBS ${OPENGL_LIBRARIES})
@@ -20,34 +22,25 @@ if(NOT WIN32)
     set(includes ${OPENGLES_INCLUDE_DIR})
     add_definitions(${OPENGLES_DEFINITIONS})
   endif()
-
-  if(NOT OPENGL_FOUND AND NOT OPENGLES_FOUND)
-    message(FATAL_ERROR "No rendering API found. Bailing")
-  endif()
-
-  set(ASTEROIDS_SOURCES src/shaders/GUIShader.cpp
-                        src/shaders/Matrix.cpp
-                        src/shaders/Shader.cpp)
-  set(ASTEROIDS_HEADERS src/shaders/GUIShader.h
-                        src/shaders/Matrix.h
-                        src/shaders/Shader.h)
 endif()
 
-include_directories(${KODI_INCLUDE_DIR}/..) # Hack way with "/..", need bigger Kodi cmake rework to match right include ways
+include_directories(${GLM_INCLUDE_DIR}
+                    ${KODI_INCLUDE_DIR}/.. # Hack way with "/..", need bigger Kodi cmake rework to match right include ways
+                    ${PROJECT_SOURCE_DIR}/lib)
 
-list(APPEND ASTEROIDS_SOURCES src/asteroid.cpp
-                              src/Asteroids.cpp
-                              src/bullet.cpp
-                              src/main.cpp
-                              src/ship.cpp)
+set(ASTEROIDS_SOURCES src/asteroid.cpp
+                      src/Asteroids.cpp
+                      src/bullet.cpp
+                      src/main.cpp
+                      src/ship.cpp)
 
-list(APPEND ASTEROIDS_HEADERS src/asteroid.h
-                              src/Asteroids.h
-                              src/bullet.h
-                              src/main.h
-                              src/ship.h
-                              src/timer.h
-                              src/types.h)
+set(ASTEROIDS_HEADERS src/asteroid.h
+                      src/Asteroids.h
+                      src/bullet.h
+                      src/main.h
+                      src/ship.h
+                      src/timer.h
+                      src/types.h)
 
 build_addon(screensaver.asteroids ASTEROIDS DEPLIBS)
 

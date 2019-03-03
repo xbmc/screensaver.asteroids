@@ -10,7 +10,10 @@
 #include <kodi/addon-instance/Screensaver.h>
 
 #ifndef WIN32
-  #include "shaders/GUIShader.h"
+  #include <kodi/gui/gl/GL.h>
+  #include <kodi/gui/gl/Shader.h>
+  #include <glm/glm.hpp>
+  #include <glm/gtc/type_ptr.hpp>
 #else
   #include <d3d11.h>
 #endif
@@ -38,13 +41,21 @@ class CTimer;
 class ATTRIBUTE_HIDDEN CMyAddon
   : public kodi::addon::CAddonBase,
     public kodi::addon::CInstanceScreensaver
+#ifndef WIN32
+  , public kodi::gui::gl::CShaderProgram
+#endif
 {
 public:
   CMyAddon();
 
-  virtual bool Start() override;
-  virtual void Stop() override;
-  virtual void Render() override;
+  bool Start() override;
+  void Stop() override;
+  void Render() override;
+
+#ifndef WIN32
+  void OnCompiledAndLinked() override;
+  bool OnEnabled() override;
+#endif
 
   bool Begin();
   bool Draw();
@@ -58,9 +69,13 @@ private:
   TRenderVertex* m_Verts;
 #ifndef WIN32
   TRenderVertex* m_VertBuf;
-  CGUIShader* m_shader;
-  unsigned int m_vertexVBO;
 
+  glm::mat4 m_projMat;
+  GLuint m_vertexVBO = 0;
+
+  GLint m_uProjMatrix = -1;
+  GLint m_aPosition = -1;
+  GLint m_aColor = -1;
 #else
   ID3D11DeviceContext* m_pContext;
   ID3D11Buffer*        m_pVBuffer;

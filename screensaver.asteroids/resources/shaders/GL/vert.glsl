@@ -1,17 +1,14 @@
 #version 150
 
-in vec3 m_attrpos;
-in vec4 m_attrcol;
+uniform mat4 u_modelViewProjectionMatrix;
 
-out vec4 m_cord;
-out vec4 m_col;
+in vec3 a_position;
+in vec4 a_color;
 
-uniform mat4 m_proj;
-uniform mat4 m_model;
+out vec4 v_color;
 
 void main ()
 {
-  mat4 mvp = m_proj * m_model;
-  gl_Position = mvp * vec4(m_attrpos.x, m_attrpos.y, m_attrpos.z, 1.0);
-  m_col = m_attrcol;
+  gl_Position = u_modelViewProjectionMatrix * vec4(a_position, 1.0);
+  v_color = a_color;
 }

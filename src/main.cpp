@@ -30,8 +30,6 @@
 
 #include <time.h>
 
-#define BUFFER_OFFSET(i) ((char *)nullptr + (i))
-
 ////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////
@@ -121,16 +119,17 @@ bool CMyAddon::Start()
   m_Verts = nullptr;
 
 #ifndef WIN32
-  m_shader = new CGUIShader("vert.glsl", "frag.glsl");
-  if (!m_shader->CompileAndLink())
-  {
-    delete m_shader;
-    m_shader = nullptr;
+  m_projMat = glm::ortho(0.0f, float(Width()), float(Height()), 0.0f);
+  
+  std::string fraqShader = kodi::GetAddonPath("resources/shaders/" GL_TYPE_STRING "/frag.glsl");
+  std::string vertShader = kodi::GetAddonPath("resources/shaders/" GL_TYPE_STRING "/vert.glsl");
+  if (!LoadShaderFiles(vertShader, fraqShader) || !CompileAndLink())
     return false;
-  }
 
   glGenBuffers(1, &m_vertexVBO);
 
+  m_VertBuf = new TRenderVertex[10000];
+  m_Verts = m_VertBuf;
 #else
   m_pContext = reinterpret_cast<ID3D11DeviceContext*>(Device());
   ID3D11Device* pDevice = nullptr;
@@ -202,10 +201,12 @@ void CMyAddon::Stop()
   SAFE_DELETE(m_timer);
 
 #ifndef WIN32
+  glBindBuffer(GL_ARRAY_BUFFER, 0);
   glDeleteBuffers(1, &m_vertexVBO);
   m_vertexVBO = 0;
-
-  SAFE_DELETE(m_shader);
+  
+  delete m_VertBuf;
+  m_VertBuf = nullptr;
 #endif
 }
 
@@ -229,39 +230,19 @@ bool CMyAddon::Draw()
     return true;
 
 #ifndef WIN32
-  struct PackedVertex
-  {
-    GLfloat x, y, z;
-    GLfloat r, g, b;
-  } vertex[m_NumLines * 2];
-
-  for (size_t j = 0; j < m_NumLines * 2; ++j)
-  {
-    vertex[j].x = (m_VertBuf[j].x - m_Width / 2.0f) / m_Width * 2.0f;
-    vertex[j].y = (m_VertBuf[j].y - m_Height / 2.0f) / m_Height * 2.0f;
-    vertex[j].z = 0.0;
-    vertex[j].r = m_VertBuf[j].col[0];
-    vertex[j].g = m_VertBuf[j].col[1];
-    vertex[j].b = m_VertBuf[j].col[2];
-  }
-
-  GLint colLoc = m_shader->GetColLoc();
-
   glBindBuffer(GL_ARRAY_BUFFER, m_vertexVBO);
-  glBufferData(GL_ARRAY_BUFFER, sizeof(PackedVertex)*m_NumLines*2, vertex, GL_STATIC_DRAW);
+  glBufferData(GL_ARRAY_BUFFER, sizeof(TRenderVertex)*m_NumLines * 2, m_VertBuf, GL_STATIC_DRAW);
 
-  glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(PackedVertex), BUFFER_OFFSET(offsetof(PackedVertex, x)));
-  glEnableVertexAttribArray(0);
+  glVertexAttribPointer(m_aPosition, 3, GL_FLOAT, GL_FALSE, sizeof(TRenderVertex), BUFFER_OFFSET(offsetof(TRenderVertex, x)));
+  glEnableVertexAttribArray(m_aPosition);
 
-  glVertexAttribPointer(colLoc, 3, GL_FLOAT, GL_FALSE, sizeof(PackedVertex), BUFFER_OFFSET(offsetof(PackedVertex, r)));
-  glEnableVertexAttribArray(colLoc);
-
-  glBindBuffer(GL_ARRAY_BUFFER, 0);
+  glVertexAttribPointer(m_aColor, 4, GL_FLOAT, GL_FALSE, sizeof(TRenderVertex), BUFFER_OFFSET(offsetof(TRenderVertex, col)));
+  glEnableVertexAttribArray(m_aColor);
 
   // render
-  m_shader->Enable();
+  EnableShader();
   glDrawArrays(GL_LINES, 0, m_NumLines * 2);
-  m_shader->Disable();
+  DisableShader();
 
   m_Verts = m_VertBuf;
 #else
@@ -285,13 +266,7 @@ void CMyAddon::DrawLine(const CVector2& pos1, const CVector2& pos2, const CRGBA&
   {
     Draw();
   }
-#ifndef WIN32
-  if (m_Verts == nullptr)
-  {
-    m_VertBuf = new TRenderVertex[10000];
-    m_Verts = m_VertBuf;
-  }
-#endif
+
   m_Verts->x = pos1.x; m_Verts->y = pos1.y; m_Verts->z = 0.0f;
   m_Verts->col[0] = col1.r;
   m_Verts->col[1] = col1.g;
@@ -306,5 +281,20 @@ void CMyAddon::DrawLine(const CVector2& pos1, const CVector2& pos2, const CRGBA&
 
   m_NumLines++;
 }
+
+#ifndef WIN32
+void CMyAddon::OnCompiledAndLinked()
+{
+  m_uProjMatrix = glGetUniformLocation(ProgramHandle(), "u_modelViewProjectionMatrix");
+  m_aPosition = glGetAttribLocation(ProgramHandle(), "a_position");
+  m_aColor = glGetAttribLocation(ProgramHandle(), "a_color");
+}
+
+bool CMyAddon::OnEnabled()
+{
+  glUniformMatrix4fv(m_uProjMatrix, 1, GL_FALSE, glm::value_ptr(m_projMat));
+  return true;
+}
+#endif
 
 ADDONCREATOR(CMyAddon);

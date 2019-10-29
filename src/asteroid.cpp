@@ -69,10 +69,10 @@ void CAsteroid::Draw(CMyAddon* render)
   if (m_State == AS_NONE)
     return;
 
-  CRGBA  col = CRGBA(1.0f, 1.0f, 1.0f, 1.0f);
+  glm::vec4  col = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
   if (m_State == AS_EXPLODING)
   {
-    col = CRGBA(m_Time/ASTEROIDEXPTIME, m_Time/ASTEROIDEXPTIME, m_Time/ASTEROIDEXPTIME, 1.0f);
+    col = glm::vec4(m_Time/ASTEROIDEXPTIME, m_Time/ASTEROIDEXPTIME, m_Time/ASTEROIDEXPTIME, 1.0f);
   }
 
   for (int lNr = 0; lNr < ASTEROIDNUMLINES; lNr++)

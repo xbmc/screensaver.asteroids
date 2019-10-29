@@ -233,7 +233,7 @@ bool CMyAddon::Draw()
   glBindBuffer(GL_ARRAY_BUFFER, m_vertexVBO);
   glBufferData(GL_ARRAY_BUFFER, sizeof(TRenderVertex)*m_NumLines * 2, m_VertBuf, GL_STATIC_DRAW);
 
-  glVertexAttribPointer(m_aPosition, 3, GL_FLOAT, GL_FALSE, sizeof(TRenderVertex), BUFFER_OFFSET(offsetof(TRenderVertex, x)));
+  glVertexAttribPointer(m_aPosition, 3, GL_FLOAT, GL_FALSE, sizeof(TRenderVertex), BUFFER_OFFSET(offsetof(TRenderVertex, pos)));
   glEnableVertexAttribArray(m_aPosition);
 
   glVertexAttribPointer(m_aColor, 4, GL_FLOAT, GL_FALSE, sizeof(TRenderVertex), BUFFER_OFFSET(offsetof(TRenderVertex, col)));
@@ -260,24 +260,20 @@ bool CMyAddon::Draw()
 
 ////////////////////////////////////////////////////////////////////////////
 //
-void CMyAddon::DrawLine(const CVector2& pos1, const CVector2& pos2, const CRGBA& col1, const CRGBA& col2)
+void CMyAddon::DrawLine(const CVector2& pos1, const CVector2& pos2, const glm::vec4& col1, const glm::vec4& col2)
 {
   if (m_NumLines >= NUMLINES)
   {
     Draw();
   }
 
-  m_Verts->x = pos1.x; m_Verts->y = pos1.y; m_Verts->z = 0.0f;
-  m_Verts->col[0] = col1.r;
-  m_Verts->col[1] = col1.g;
-  m_Verts->col[2] = col1.b;
-  m_Verts->col[3] = col1.a;  m_Verts++;
+  m_Verts->pos = glm::vec3(pos1.x, pos1.y, 0.0f);
+  m_Verts->col = col1;
+  m_Verts++;
 
-  m_Verts->x = pos2.x; m_Verts->y = pos2.y; m_Verts->z = 0.0f;
-  m_Verts->col[0] = col2.r;
-  m_Verts->col[1] = col2.g;
-  m_Verts->col[2] = col2.b;
-  m_Verts->col[3] = col2.a;  m_Verts++;
+  m_Verts->pos = glm::vec3(pos2.x, pos2.y, 0.0f);
+  m_Verts->col = col2;
+  m_Verts++;
 
   m_NumLines++;
 }

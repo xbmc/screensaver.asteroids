@@ -54,7 +54,7 @@ void CShip::Update(f32 dt)
 //
 void CShip::Draw(CMyAddon* render)
 {
-  CRGBA col = CRGBA(1.0f, 1.0f, 1.0f, 1.0f);
+  glm::vec4 col = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
   for (int lnr = 0; lnr < SHIPLINES; lnr++)
   {
     render->DrawLine(m_Pos+m_Lines[lnr][0].Rotate(m_Rot), m_Pos+m_Lines[lnr][1].Rotate(m_Rot), col, col);
@@ -85,4 +85,3 @@ bool CShip::CanFire()
   m_BulletDelay = BULLETDELAY;
   return true;
 }
-

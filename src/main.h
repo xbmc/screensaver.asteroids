@@ -10,12 +10,12 @@
 #include <kodi/addon-instance/Screensaver.h>
 
 #ifndef WIN32
-  #include <kodi/gui/gl/GL.h>
-  #include <kodi/gui/gl/Shader.h>
-  #include <glm/glm.hpp>
-  #include <glm/gtc/type_ptr.hpp>
+#include <kodi/gui/gl/GL.h>
+#include <kodi/gui/gl/Shader.h>
+#include <glm/glm.hpp>
+#include <glm/gtc/type_ptr.hpp>
 #else
-  #include <d3d11.h>
+#include <d3d11.h>
 #endif
 
 #include <stdio.h>

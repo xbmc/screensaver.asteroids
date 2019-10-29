@@ -54,6 +54,6 @@ void CBullet::Draw(CMyAddon* render)
   if (m_State != BS_ACTIVE)
     return;
 
-  CRGBA  col(1.0f, 1.0f, 1.0f, 1.0f);
+  glm::vec4 col(1.0f, 1.0f, 1.0f, 1.0f);
   render->DrawLine(m_Pos, m_Pos+Normalized(m_Vel)*m_Size, col, col);
 }

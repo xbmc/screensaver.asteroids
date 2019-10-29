@@ -8,12 +8,12 @@
 #pragma once
 
 #include <kodi/addon-instance/Screensaver.h>
+#include <glm/glm.hpp>
+#include <glm/gtc/type_ptr.hpp>
 
 #ifndef WIN32
 #include <kodi/gui/gl/GL.h>
 #include <kodi/gui/gl/Shader.h>
-#include <glm/glm.hpp>
-#include <glm/gtc/type_ptr.hpp>
 #else
 #include <d3d11.h>
 #endif
@@ -31,8 +31,8 @@
 
 typedef struct TRenderVertex
 {
-  f32 x, y, z;
-  float col[4];
+  glm::vec3 pos;
+  glm::vec4 col;
 } TRenderVertex;
 
 class CAsteroids;
@@ -59,7 +59,7 @@ public:
 
   bool Begin();
   bool Draw();
-  void DrawLine(const CVector2& pos1, const CVector2& pos2, const CRGBA& col1, const CRGBA& col2);
+  void DrawLine(const CVector2& pos1, const CVector2& pos2, const glm::vec4& col1, const glm::vec4& col2);
 
 private:
   s32 m_NumLines;

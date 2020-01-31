@@ -280,5 +280,3 @@ void CAsteroids::Warp()
       return;
   }
 }
-
-

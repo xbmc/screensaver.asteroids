@@ -4,16 +4,15 @@ project(screensaver.asteroids)
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${PROJECT_SOURCE_DIR})
 
 find_package(Kodi REQUIRED)
+find_package(glm REQUIRED)
 
 if(NOT WIN32)
-  find_package(glm REQUIRED)
-
   if(APP_RENDER_SYSTEM STREQUAL "gl" OR NOT APP_RENDER_SYSTEM)
     find_package(OpenGl REQUIRED)
     set(DEPLIBS ${OPENGL_LIBRARIES})
     set(includes ${OPENGL_INCLUDE_DIR})
     add_definitions(${OPENGL_DEFINITIONS})
-  elseif(APP_RENDER_SYSTEM STREQUAL "gles")
+  else()
     find_package(OpenGLES REQUIRED)
     set(DEPLIBS ${OPENGLES_LIBRARIES})
     set(includes ${OPENGLES_INCLUDE_DIR})

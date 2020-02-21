@@ -3,7 +3,8 @@
 This is a [Kodi](https://kodi.tv) screensaver addon.
 
 [![Build Status](https://travis-ci.org/xbmc/screensaver.asteroids.svg?branch=Leia)](https://travis-ci.org/xbmc/screensaver.asteroids/branches)
-[![Build Status](https://ci.appveyor.com/api/projects/status/github/xbmc/screensaver.asteroids?branch=Leia&svg=true)](https://ci.appveyor.com/project/xbmc/screensaver-asteroids?branch=Leia)
+[![Build Status](https://dev.azure.com/teamkodi/binary-addons/_apis/build/status/xbmc.screensaver.asteroids?branchName=Leia)](https://dev.azure.com/teamkodi/binary-addons/_build/latest?definitionId=40&branchName=Leia)
+<!--- [![Build Status](https://ci.appveyor.com/api/projects/status/github/xbmc/screensaver.asteroids?branch=Leia&svg=true)](https://ci.appveyor.com/project/xbmc/screensaver-asteroids?branch=Leia) -->
 
 ![screenshot](https://raw.githubusercontent.com/xbmc/screensaver.asteroids/Leia/screensaver.asteroids/resources/screenshot-01.png)
 

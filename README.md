@@ -3,7 +3,8 @@
 This is a [Kodi](https://kodi.tv) screensaver addon.
 
 [![Build Status](https://travis-ci.org/xbmc/screensaver.asteroids.svg?branch=Matrix)](https://travis-ci.org/xbmc/screensaver.asteroids/branches)
-[![Build Status](https://ci.appveyor.com/api/projects/status/github/xbmc/screensaver.asteroids?branch=Matrix&svg=true)](https://ci.appveyor.com/project/xbmc/screensaver-asteroids?branch=Matrix)
+[![Build Status](https://dev.azure.com/teamkodi/binary-addons/_apis/build/status/xbmc.screensaver.asteroids?branchName=Matrix)](https://dev.azure.com/teamkodi/binary-addons/_build/latest?definitionId=40&branchName=Matrix)
+<!--- [![Build Status](https://ci.appveyor.com/api/projects/status/github/xbmc/screensaver.asteroids?branch=Matrix&svg=true)](https://ci.appveyor.com/project/xbmc/screensaver-asteroids?branch=Matrix) -->
 
 ![screenshot](https://raw.githubusercontent.com/xbmc/screensaver.asteroids/Matrix/screensaver.asteroids/resources/screenshot-01.png)
 

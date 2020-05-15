@@ -2,6 +2,7 @@
 
 This is a [Kodi](https://kodi.tv) screensaver addon.
 
+[![License: GPL-2.0-or-later](https://img.shields.io/badge/License-GPL%20v2+-blue.svg)](LICENSE.md)
 [![Build Status](https://travis-ci.org/xbmc/screensaver.asteroids.svg?branch=Matrix)](https://travis-ci.org/xbmc/screensaver.asteroids/branches)
 [![Build Status](https://dev.azure.com/teamkodi/binary-addons/_apis/build/status/xbmc.screensaver.asteroids?branchName=Matrix)](https://dev.azure.com/teamkodi/binary-addons/_build/latest?definitionId=40&branchName=Matrix)
 <!--- [![Build Status](https://ci.appveyor.com/api/projects/status/github/xbmc/screensaver.asteroids?branch=Matrix&svg=true)](https://ci.appveyor.com/project/xbmc/screensaver-asteroids?branch=Matrix) -->

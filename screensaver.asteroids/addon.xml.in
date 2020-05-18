@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <addon
   id="screensaver.asteroids"
-  version="2.4.1"
+  version="2.4.2"
   name="Asteroids"
   provider-name="Team Kodi">
   <requires>@ADDON_DEPENDS@</requires>
@@ -9,12 +9,12 @@
     point="xbmc.ui.screensaver"
     library_@PLATFORM@="@LIBRARY_FILENAME@"/>
   <extension point="xbmc.addon.metadata">
-    <summary lang="en">Asteroids screensaver</summary>
-    <summary lang="de">Asteroiden Bildschirmschoner</summary>
-    <description lang="en">An old-style screen saver where the asteroids are shot away.</description>
-    <description lang="de">Ein Bildschirmschoner im alten Stil, welcher die Asteroiden davon schießt.</description>
+    <summary lang="en_GB">Asteroids screensaver</summary>
+    <summary lang="de_DE">Asteroiden Bildschirmschoner</summary>
+    <description lang="en_GB">An old-style screen saver where the asteroids are shot away.</description>
+    <description lang="de_DE">Ein Bildschirmschoner im alten Stil, welcher die Asteroiden davon schießt.</description>
     <platform>@PLATFORM@</platform>
-    <license>GPL-2.0</license>
+    <license>GPL-2.0-or-later</license>
     <source>https://github.com/xbmc/screensaver.asteroids</source>
     <assets>
       <icon>resources/icon.png</icon>

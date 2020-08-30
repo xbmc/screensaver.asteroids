@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <addon
   id="screensaver.asteroids"
-  version="2.4.2"
+  version="2.5.0"
   name="Asteroids"
   provider-name="Team Kodi">
   <requires>@ADDON_DEPENDS@</requires>

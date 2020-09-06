@@ -9,10 +9,10 @@
     point="xbmc.ui.screensaver"
     library_@PLATFORM@="@LIBRARY_FILENAME@"/>
   <extension point="xbmc.addon.metadata">
-    <summary lang="en_GB">Asteroids screensaver</summary>
     <summary lang="de_DE">Asteroiden Bildschirmschoner</summary>
-    <description lang="en_GB">An old-style screen saver where the asteroids are shot away.</description>
+    <summary lang="en_GB">Asteroids screensaver</summary>
     <description lang="de_DE">Ein Bildschirmschoner im alten Stil, welcher die Asteroiden davon schießt.</description>
+    <description lang="en_GB">An old-style screen saver where the asteroids are shot away.</description>
     <platform>@PLATFORM@</platform>
     <license>GPL-2.0-or-later</license>
     <source>https://github.com/xbmc/screensaver.asteroids</source>

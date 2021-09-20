@@ -23,5 +23,4 @@ msgstr "Asteroiden Bildschirmschoner"
 
 msgctxt "Addon Description"
 msgid "An old-style screen saver where the asteroids are shot away."
-msgstr ""
-"Ein Bildschirmschoner im alten Stil, welcher die Asteroiden davon schießt."
+msgstr "Ein Bildschirmschoner im alten Stil, welcher die Asteroiden davon schießt."

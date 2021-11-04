@@ -23,9 +23,11 @@
     <summary lang="de_DE">Asteroiden Bildschirmschoner</summary>
     <summary lang="en_GB">Asteroids screensaver</summary>
     <summary lang="ko_KR">소행성 화면 보호기</summary>
+    <summary lang="zh_CN">小行星屏保</summary>
     <description lang="da_DK">En pauseskærm i gammel stil, hvor asteroiderne bliver skudt væk.</description>
     <description lang="de_DE">Ein Bildschirmschoner im alten Stil, welcher die Asteroiden davon schießt.</description>
     <description lang="en_GB">An old-style screen saver where the asteroids are shot away.</description>
     <description lang="ko_KR">소행성이 총격을 당하는 구식 화면 보호기.</description>
+    <description lang="zh_CN">一个老式的屏幕保护程序，小行星被射出。</description>
   </extension>
 </addon>

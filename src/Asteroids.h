@@ -24,7 +24,7 @@
 
 ////////////////////////////////////////////////////////////////////////////
 //
-class ATTRIBUTE_HIDDEN CAsteroids
+class ATTR_DLL_LOCAL CAsteroids
 {
 public:
   CAsteroids(CMyAddon* addon);

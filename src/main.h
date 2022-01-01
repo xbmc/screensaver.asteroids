@@ -39,7 +39,7 @@ typedef struct TRenderVertex
 class CAsteroids;
 class CTimer;
 
-class ATTRIBUTE_HIDDEN CMyAddon
+class ATTR_DLL_LOCAL CMyAddon
   : public kodi::addon::CAddonBase,
     public kodi::addon::CInstanceScreensaver
 #ifndef WIN32

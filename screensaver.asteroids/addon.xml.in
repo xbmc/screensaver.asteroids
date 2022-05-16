@@ -28,6 +28,7 @@
     <summary lang="pl_PL">Wygaszacz ekranu Asteroidy</summary>
     <summary lang="pt_BR">Protetor de tela Asteroides</summary>
     <summary lang="ru_RU">Заставка Asteroids</summary>
+    <summary lang="uk_UA">Заставка Астероїди</summary>
     <summary lang="zh_CN">小行星屏保</summary>
     <description lang="da_DK">En pauseskærm i gammel stil, hvor asteroiderne bliver skudt væk.</description>
     <description lang="de_DE">Ein Bildschirmschoner im alten Stil, welcher die Asteroiden davon schießt.</description>
@@ -38,6 +39,7 @@
     <description lang="pl_PL">Wygaszacz ekranu w starym stylu, w którym asteroidy są zestrzeliwane.</description>
     <description lang="pt_BR">Um protetor de tela de estilo antigo, onde os asteroides são disparados.</description>
     <description lang="ru_RU">Заставка, выполненная в старом стиле, где звездолёт сражается с астероидами.</description>
+    <description lang="uk_UA">Заставка, яка виконана в старому стилі, з руйнуванням астероїдів.</description>
     <description lang="zh_CN">一个老式的屏幕保护程序，小行星被射出。</description>
   </extension>
 </addon>

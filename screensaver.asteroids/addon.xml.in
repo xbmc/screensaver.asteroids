@@ -20,16 +20,35 @@
       <screenshot>resources/screenshot-03.png</screenshot>
     </assets>
     <summary lang="da_DK">Asteroids pauseskærm</summary>
-    <summary lang="de_DE">Asteroiden Bildschirmschoner</summary>
+    <summary lang="de_DE">Bildschirmschoner Asteroids</summary>
     <summary lang="en_GB">Asteroids screensaver</summary>
+    <summary lang="es_ES">Salvapantallas Asteroids</summary>
+    <summary lang="et_EE">Asteroids-ekraanisäästja</summary>
+    <summary lang="eu_ES">Asteroideen babes-pantaila</summary>
+    <summary lang="fi_FI">Asteroids-näytönsäästäjä</summary>
+    <summary lang="fr_FR">Économiseur d&apos;écran d&apos;astéroïdes</summary>
+    <summary lang="hr_HR">Asteroids čuvar zaslona</summary>
+    <summary lang="it_IT">Salvaschermo Asteroids</summary>
     <summary lang="ko_KR">소행성 화면 보호기</summary>
+    <summary lang="pl_PL">Wygaszacz ekranu Asteroidy</summary>
     <summary lang="pt_BR">Protetor de tela Asteroides</summary>
+    <summary lang="ru_RU">Заставка Asteroids</summary>
+    <summary lang="uk_UA">Заставка Астероїди</summary>
     <summary lang="zh_CN">小行星屏保</summary>
     <description lang="da_DK">En pauseskærm i gammel stil, hvor asteroiderne bliver skudt væk.</description>
-    <description lang="de_DE">Ein Bildschirmschoner im alten Stil, welcher die Asteroiden davon schießt.</description>
+    <description lang="de_DE">Ein Bildschirmschoner alten Stils, bei dem die Asteroiden weggeschossen werden.</description>
     <description lang="en_GB">An old-style screen saver where the asteroids are shot away.</description>
+    <description lang="es_ES">Un salvapantallas de la vieja escuela donde se disparan asteroides.</description>
+    <description lang="et_EE">Vana stiilis ekraanisäästja, kus tulistatakse asteroide.</description>
+    <description lang="fi_FI">Vanhan tyylinen näytönsäästäjä, jossa ammutaan asteroideja.</description>
+    <description lang="fr_FR">Un économiseur d&apos;écran à l&apos;ancienne où les astéroïdes sont abattus.</description>
+    <description lang="hr_HR">Čuvar zaslona starinskog izgleda u kojem se otpucavaju asteroidi.</description>
+    <description lang="it_IT">Un salvaschermo vecchio stile in cui vengono distrutti degli asteroidi.</description>
     <description lang="ko_KR">소행성이 총격을 당하는 구식 화면 보호기.</description>
+    <description lang="pl_PL">Wygaszacz ekranu w starym stylu, w którym asteroidy są zestrzeliwane.</description>
     <description lang="pt_BR">Um protetor de tela de estilo antigo, onde os asteroides são disparados.</description>
+    <description lang="ru_RU">Заставка, выполненная в старом стиле, где звездолёт сражается с астероидами.</description>
+    <description lang="uk_UA">Заставка, яка виконана в старому стилі, з руйнуванням астероїдів.</description>
     <description lang="zh_CN">一个老式的屏幕保护程序，小行星被射出。</description>
   </extension>
 </addon>

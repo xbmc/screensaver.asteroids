@@ -176,8 +176,8 @@ void CMyAddon::Stop()
   glBindBuffer(GL_ARRAY_BUFFER, 0);
   glDeleteBuffers(1, &m_vertexVBO);
   m_vertexVBO = 0;
-  
-  delete m_VertBuf;
+
+  delete[] m_VertBuf;
   m_VertBuf = nullptr;
 #endif
 }

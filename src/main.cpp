@@ -108,6 +108,10 @@ bool CMyAddon::Start()
   if (!LoadShaderFiles(vertShader, fraqShader) || !CompileAndLink())
     return false;
 
+#if defined(HAS_GL)
+  glGenVertexArrays(1, &m_vao);
+#endif
+
   glGenBuffers(1, &m_vertexVBO);
 
   m_VertBuf = new TRenderVertex[10000];
@@ -183,10 +187,13 @@ void CMyAddon::Stop()
   SAFE_DELETE(m_timer);
 
 #ifndef WIN32
-  glBindBuffer(GL_ARRAY_BUFFER, 0);
   glDeleteBuffers(1, &m_vertexVBO);
   m_vertexVBO = 0;
-  
+
+#if defined(HAS_GL)
+  glDeleteVertexArrays(1, &m_vao);
+#endif
+
   delete[] m_VertBuf;
   m_VertBuf = nullptr;
 #endif
@@ -212,6 +219,10 @@ bool CMyAddon::Draw()
     return true;
 
 #ifndef WIN32
+#if defined(HAS_GL)
+  glBindVertexArray(m_vao);
+#endif
+
   glBindBuffer(GL_ARRAY_BUFFER, m_vertexVBO);
   glBufferData(GL_ARRAY_BUFFER, sizeof(TRenderVertex)*m_NumLines * 2, m_VertBuf, GL_STATIC_DRAW);
 
@@ -225,6 +236,14 @@ bool CMyAddon::Draw()
   EnableShader();
   glDrawArrays(GL_LINES, 0, m_NumLines * 2);
   DisableShader();
+
+  glDisableVertexAttribArray(m_aColor);
+  glDisableVertexAttribArray(m_aPosition);
+  glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+#if defined(HAS_GL)
+  glBindVertexArray(0);
+#endif
 
   m_Verts = m_VertBuf;
 #else

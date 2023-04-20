@@ -49,7 +49,7 @@ class ATTR_DLL_LOCAL CMyAddon
 #endif
 {
 public:
-  CMyAddon();
+  CMyAddon() = default;
 
   bool Start() override;
   void Stop() override;
@@ -86,7 +86,7 @@ private:
 #endif
 
   std::unique_ptr<CAsteroids> m_asteroids;
-  CTimer* m_timer;
+  std::unique_ptr<CTimer> m_timer;
 };
 
 /***************************** I N L I N E S *******************************/

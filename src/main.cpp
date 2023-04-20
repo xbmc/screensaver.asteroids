@@ -86,8 +86,7 @@ const BYTE PixelShader[] =
 #endif
 
 CMyAddon::CMyAddon()
-  : m_asteroids(nullptr),
-    m_timer(nullptr)
+  : m_timer(nullptr)
 {
 }
 
@@ -127,9 +126,7 @@ bool CMyAddon::Start()
   m_Height = Height();
 
   srand((u32)time(nullptr));
-  m_asteroids = new CAsteroids(this);
-  if (!m_asteroids)
-    return false;
+  m_asteroids = std::make_unique<CAsteroids>(this);
 
   m_timer = new CTimer();
   m_timer->Init();
@@ -179,7 +176,6 @@ void CMyAddon::Stop()
 #endif
 
   m_asteroids->InvalidateDevice();
-  SAFE_DELETE(m_asteroids);
   SAFE_DELETE(m_timer);
 
 #ifndef WIN32

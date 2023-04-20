@@ -19,6 +19,8 @@
 #include <d3d11.h>
 #endif
 
+#include <memory>
+
 #include <stdio.h>
 #include <stdlib.h>
 #include "types.h"
@@ -83,7 +85,7 @@ private:
   ID3D11PixelShader*   m_pPShader;
 #endif
 
-  CAsteroids* m_asteroids;
+  std::unique_ptr<CAsteroids> m_asteroids;
   CTimer* m_timer;
 };
 

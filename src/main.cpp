@@ -144,18 +144,15 @@ bool CMyAddon::Start()
 
 ////////////////////////////////////////////////////////////////////////////
 // Kodi tells us to render a frame of our screensaver. This is called on
-// each frame render in Kodi, you should render a single frame only - the DX
-// device will already have been cleared.
+// each frame render in Kodi, you should render a single frame only
 //
 void CMyAddon::Render()
 {
   if (!m_asteroids)
     return;
 
-#ifndef WIN32
   glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
   glClear(GL_COLOR_BUFFER_BIT);
-#endif
 
   Begin();
   m_timer->Update();

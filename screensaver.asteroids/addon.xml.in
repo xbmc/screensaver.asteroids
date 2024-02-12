@@ -19,10 +19,12 @@
       <screenshot>resources/screenshot-02.png</screenshot>
       <screenshot>resources/screenshot-03.png</screenshot>
     </assets>
+    <summary lang="af_ZA">Asteroids skermskut</summary>
+    <summary lang="ca_ES">Estalvi de pantalla d&apos;asteroides</summary>
     <summary lang="da_DK">Asteroids pauseskærm</summary>
     <summary lang="de_DE">Bildschirmschoner Asteroids</summary>
     <summary lang="en_GB">Asteroids screensaver</summary>
-    <summary lang="es_ES">Salvapantallas Asteroids</summary>
+    <summary lang="es_ES">Salvapantallas Asteroides</summary>
     <summary lang="et_EE">Asteroids-ekraanisäästja</summary>
     <summary lang="eu_ES">Asteroideen babes-pantaila</summary>
     <summary lang="fi_FI">Asteroids-näytönsäästäjä</summary>
@@ -35,6 +37,8 @@
     <summary lang="ru_RU">Заставка Asteroids</summary>
     <summary lang="uk_UA">Заставка Астероїди</summary>
     <summary lang="zh_CN">小行星屏保</summary>
+    <description lang="af_ZA">&apos;n Ou-styl skermskut waar die asteroïdes weggeskiet word.</description>
+    <description lang="ca_ES">Un estalvi de pantalla d&apos;estil antic on els asteroides surten disparats.</description>
     <description lang="da_DK">En pauseskærm i gammel stil, hvor asteroiderne bliver skudt væk.</description>
     <description lang="de_DE">Ein Bildschirmschoner alten Stils, bei dem die Asteroiden weggeschossen werden.</description>
     <description lang="en_GB">An old-style screen saver where the asteroids are shot away.</description>

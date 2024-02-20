@@ -85,12 +85,6 @@ const BYTE PixelShader[] =
 };
 #endif
 
-CMyAddon::CMyAddon()
-  : m_asteroids(nullptr),
-    m_timer(nullptr)
-{
-}
-
 ////////////////////////////////////////////////////////////////////////////
 // Kodi tells us we should get ready to start rendering. This function
 // is called once when the screensaver is activated by Kodi.
@@ -127,11 +121,9 @@ bool CMyAddon::Start()
   m_Height = Height();
 
   srand((u32)time(nullptr));
-  m_asteroids = new CAsteroids(this);
-  if (!m_asteroids)
-    return false;
+  m_asteroids = std::make_unique<CAsteroids>(this);
 
-  m_timer = new CTimer();
+  m_timer = std::make_unique<CTimer>();
   m_timer->Init();
   if (!m_asteroids->RestoreDevice())
   {
@@ -179,15 +171,13 @@ void CMyAddon::Stop()
 #endif
 
   m_asteroids->InvalidateDevice();
-  SAFE_DELETE(m_asteroids);
-  SAFE_DELETE(m_timer);
 
 #ifndef WIN32
   glBindBuffer(GL_ARRAY_BUFFER, 0);
   glDeleteBuffers(1, &m_vertexVBO);
   m_vertexVBO = 0;
-  
-  delete m_VertBuf;
+
+  delete[] m_VertBuf;
   m_VertBuf = nullptr;
 #endif
 }

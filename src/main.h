@@ -19,6 +19,8 @@
 #include <d3d11.h>
 #endif
 
+#include <memory>
+
 #include <stdio.h>
 #include <stdlib.h>
 #include "types.h"
@@ -47,7 +49,7 @@ class ATTR_DLL_LOCAL CMyAddon
 #endif
 {
 public:
-  CMyAddon();
+  CMyAddon() = default;
 
   bool Start() override;
   void Stop() override;
@@ -83,8 +85,8 @@ private:
   ID3D11PixelShader*   m_pPShader;
 #endif
 
-  CAsteroids* m_asteroids;
-  CTimer* m_timer;
+  std::unique_ptr<CAsteroids> m_asteroids;
+  std::unique_ptr<CTimer> m_timer;
 };
 
 /***************************** I N L I N E S *******************************/

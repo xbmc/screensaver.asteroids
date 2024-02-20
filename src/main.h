@@ -73,6 +73,7 @@ private:
 
   glm::mat4 m_projMat;
   GLuint m_vertexVBO = 0;
+  GLuint m_vao = 0;
 
   GLint m_uProjMatrix = -1;
   GLint m_aPosition = -1;

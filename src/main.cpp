@@ -144,8 +144,7 @@ bool CMyAddon::Start()
 
 ////////////////////////////////////////////////////////////////////////////
 // Kodi tells us to render a frame of our screensaver. This is called on
-// each frame render in Kodi, you should render a single frame only - the DX
-// device will already have been cleared.
+// each frame render in Kodi, you should render a single frame only
 //
 void CMyAddon::Render()
 {
@@ -155,6 +154,12 @@ void CMyAddon::Render()
 #ifndef WIN32
   glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
   glClear(GL_COLOR_BUFFER_BIT);
+#else
+  ID3D11RenderTargetView* renderTargetView;
+  m_pContext->OMGetRenderTargets(1, &renderTargetView, nullptr);
+  float clearColor[4] = { 0.0f, 0.0f, 0.0f, 1.0f };
+  m_pContext->ClearRenderTargetView(renderTargetView, clearColor);
+  SAFE_RELEASE(renderTargetView);
 #endif
 
   Begin();

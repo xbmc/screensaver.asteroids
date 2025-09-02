@@ -20,6 +20,7 @@
       <screenshot>resources/screenshot-03.png</screenshot>
     </assets>
     <summary lang="af_ZA">Asteroids skermskut</summary>
+    <summary lang="bs_BA">Čuvar ekrana s asteroidima</summary>
     <summary lang="ca_ES">Estalvi de pantalla d&apos;asteroides</summary>
     <summary lang="da_DK">Asteroids pauseskærm</summary>
     <summary lang="de_DE">Bildschirmschoner Asteroids</summary>
@@ -40,6 +41,7 @@
     <summary lang="uk_UA">Заставка Астероїди</summary>
     <summary lang="zh_CN">小行星屏保</summary>
     <description lang="af_ZA">&apos;n Ou-styl skermskut waar die asteroïdes weggeskiet word.</description>
+    <description lang="bs_BA">Starinski čuvar ekrana gdje se asteroidi odbijaju.</description>
     <description lang="ca_ES">Un estalvi de pantalla d&apos;estil antic on els asteroides surten disparats.</description>
     <description lang="da_DK">En pauseskærm i gammel stil, hvor asteroiderne bliver skudt væk.</description>
     <description lang="de_DE">Ein Bildschirmschoner alten Stils, bei dem die Asteroiden weggeschossen werden.</description>
